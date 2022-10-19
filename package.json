@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "config": "./node_modules/.bin/pm2 install typescript",
-    "prod": "cross-env NODE_ENV=production pm2 start server.ts --name next --watch"
+    "prod": "cross-env NODE_ENV=production pm2 start server.ts --name next"
   },
   "keywords": [],
   "author": "",
