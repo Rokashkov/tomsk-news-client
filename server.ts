@@ -17,7 +17,7 @@ async function start () {
 	const server = express()
 	const redirect = express()
 
-	const __certs = path.resolve(__dirname, '..', '..', '..', 'etc', 'letsencrypt', 'live', 'rokashkov.ru')
+	const __certs = path.resolve(__dirname, '..', '..', 'etc', 'letsencrypt', 'live', 'tomsk-news.ru')
 
 	const privateKey  = fs.readFileSync(path.resolve(__certs, 'privkey.pem'), 'utf8')
 	const certificate = fs.readFileSync(path.resolve(__certs, 'fullchain.pem'), 'utf8')
