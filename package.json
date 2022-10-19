@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "config": "./node_modules/.bin/pm2 install typescript",
-    "prod": "pm2 start server.ts --name next"
+    "prod": "pm2 start server.js --name next"
   },
   "keywords": [],
   "author": "",
