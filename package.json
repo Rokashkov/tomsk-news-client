@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-	"config": "./node_modules/.bin/pm2 install typescript",
-    "prod": "pm2 start server.ts --name next --watch"
+    "config": "./node_modules/.bin/pm2 install typescript",
+    "prod": "cross-env NODE_ENV=production pm2 start server.ts --name next --watch"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "@types/node": "^18.11.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "cross-env": "^7.0.3",
     "pm2": "^5.2.2",
     "typescript": "^4.8.4"
   }
