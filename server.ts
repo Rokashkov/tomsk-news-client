@@ -13,13 +13,15 @@ async function start () {
 	
 	const server = express()
 
+	server.use(express.static('public'))
+
 	server.all('*', (req, res) => {
 		const handle =  app.getRequestHandler()
 		return handle(req, res)
 	})
 
 	const __certs = path.resolve(__dirname, '..', '..', 'etc', 'letsencrypt', 'live', 'tomsk-news.ru')
-	
+
 	const privateKey  = fs.readFileSync(path.resolve(__certs, 'privkey.pem'), 'utf8')
 	const certificate = fs.readFileSync(path.resolve(__certs, 'fullchain.pem'), 'utf8')
 
