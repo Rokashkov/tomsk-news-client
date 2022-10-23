@@ -1,6 +1,8 @@
+import Layout from "../components/Layout"
+
 function HomePage () {
 	return (
-		<div>Hello, World!</div>
+		<Layout>Home page</Layout>
 	)
 }
 

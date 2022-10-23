@@ -20,6 +20,7 @@
     "jsx": "preserve"
   },
   "include": [
+	"gloval.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
