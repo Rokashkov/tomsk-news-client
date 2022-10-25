@@ -1,9 +1,9 @@
 import express from 'express'
 import next from 'next'
-import http from 'http'
-import https from 'https'
-import path from 'path'
-import fs from 'fs'
+import { createServer as createHTTPServer } from 'http'
+import { createServer as createHTTPSServer } from 'https'
+import { resolve } from 'path'
+import { readFileSync } from 'fs'
 import redirect from './redirect'
 
 async function start () {
@@ -20,18 +20,18 @@ async function start () {
 		return handle(req, res)
 	})
 
-	const __certs = path.resolve(__dirname, '..', '..', 'etc', 'letsencrypt', 'live', 'tomsk-news.ru')
+	const __certs = resolve(__dirname, '..', '..', 'etc', 'letsencrypt', 'live', 'tomsk-news.ru')
 
-	const privateKey  = fs.readFileSync(path.resolve(__certs, 'privkey.pem'), 'utf8')
-	const certificate = fs.readFileSync(path.resolve(__certs, 'fullchain.pem'), 'utf8')
+	const privateKey  = readFileSync(resolve(__certs, 'privkey.pem'), 'utf8')
+	const certificate = readFileSync(resolve(__certs, 'fullchain.pem'), 'utf8')
 
 	const credentials = {
 		key: privateKey,
 		cert: certificate
 	}
 
-	https.createServer(credentials, server).listen(443)
-	http.createServer(redirect).listen(80)
+	createHTTPSServer(credentials, server).listen(443)
+	createHTTPServer(redirect).listen(80)
 }
 
 start()

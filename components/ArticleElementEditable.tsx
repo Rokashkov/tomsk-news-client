@@ -1,4 +1,4 @@
-import { SetStateAction, useState, MouseEvent } from "react"
+import { SetStateAction, useState, MouseEvent, ChangeEvent } from "react"
 import Button from "./Button"
 import CustomTextarea from "./CustomTextarea"
 import SelectTag from './SelectTag'
@@ -40,7 +40,10 @@ function ArticleElementEditable (props: ArticleElementEditableProps) {
 		useExist(false)
 		content.splice(index, 1)
 		useContent(content)
-		console.log(content)
+	}
+
+	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+		useTextValue(e.target.value)
 	}
 
 	return (
@@ -50,7 +53,7 @@ function ArticleElementEditable (props: ArticleElementEditableProps) {
 					<CustomTextarea
 						value={ textValue }
 						tagValue={ tagValue }
-						useTextValue={ useTextValue }
+						handleChange={ handleChange }
 						onClick={ () => useVisible(true) }
 					/>
 					<div 
@@ -62,7 +65,7 @@ function ArticleElementEditable (props: ArticleElementEditableProps) {
 					</div>
 				</div>
 			)}
-			{ visible && (
+			{ exist && visible && (
 				<>
 					<div className="toolbar">
 						<SelectTag defaultValue={ tagValue } useTagValue={ useTagValue }></SelectTag>

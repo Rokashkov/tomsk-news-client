@@ -4,7 +4,8 @@
 	--mn-clr: rgb(220, 220, 220);
 	--mn-clr-inactive: rgb(200, 200, 200);
 	--mn-clr-active: rgb(245, 245, 235);
-	--mn-bg-clr-bright: rgb(50, 50, 50);
+	--mn-bg-clr-medium: rgb(50, 50, 50);
+	--mn-bg-clr-bright: rgb(70, 70, 70);
 	--mn-bg-clr-dark: rgb(35, 35, 35);
 }
 
@@ -21,17 +22,17 @@
 	flex-direction: column;
 	width: 100%;
 	min-height: 100vh;
-	background-color: var(--mn-bg-clr-bright);
+	background-color: var(--mn-bg-clr-medium);
 	align-items: center;
 }
 
 main {
-	background-color: var(--mn-bg-clr-bright);
+	background-color: var(--mn-bg-clr-medium);
 	padding: 60px 30px 20px 30px;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 20px;
 	width: 100%;
 	max-width: 1340px;
 	flex: none;
@@ -45,7 +46,7 @@ header {
 	display: flex;
 	gap: 40px;
 	justify-content: space-between;
-	padding: 0 20px;
+	padding: 0 40px;
 	line-height: 1;
 	font-size: 14px;
 	left: 0;
@@ -64,7 +65,7 @@ header > nav > ul {
 	gap: 20px
 }
 
-header > nav > ul > li {
+header > nav > ul > li > a {
 	user-select: none;
 	cursor: pointer;
 	padding: 5px 10px;
@@ -73,7 +74,7 @@ header > nav > ul > li {
 	flex: none;
 }
 
-header > nav > ul > li:hover {
+header > nav > ul > li > a:hover {
 	color: var(--mn-clr-active)
 }
 
@@ -105,8 +106,8 @@ header > nav > .logo_label:hover {
 }
 
 textarea {
+	word-wrap: break-word;
 	outline: none;
-	height: 100px;
 	resize: none;
 	overflow-y: hidden;
 	width: 100%;
@@ -118,40 +119,49 @@ textarea {
 }
 
 textarea:hover {
-	background-color: rgb(70, 70, 70);
+	background-color: var(--mn-bg-clr-medium);
 }
 
 textarea:focus {
-	background-color: rgb(70, 70, 70);
+	background-color: var(--mn-bg-clr-medium);
 }
 
 select {
 	background-color: var(--mn-bg-clr-bright);
 	outline: none;
 	transition: background-color 0.2s ease;
+	cursor: pointer;
+	user-select: none;
 }
 
 select:hover {
-	background-color: rgb(70, 70, 70);
+	background-color: var(--mn-bg-clr-medium);
 }
 
 select:focus {
-	background-color: rgb(70, 70, 70);
+	background-color: var(--mn-bg-clr-medium);
 }
 
 article {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	background-color: var(--mn-bg-clr-bright);
+	border-radius: 5px;
+	padding: 10px 15px;
+}
+
+article > p, h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 5px;
 }
 
 article > .element {
 	position: relative;
 }
 
-article > .element > .cross {
+article > .element > .cross, fieldset.keywords > .element > .cross {
 	position: absolute;
-	top: calc(0% - 10px);
+	top: calc(0% - 10px / 1.5);
 	right: calc(0% - 10px);
 	width: 20px;
 	height: 20px;
@@ -162,7 +172,7 @@ article > .element > .cross {
 	cursor: pointer;
 }
 
-article > .element > .cross > div {
+article > .element > .cross > div, fieldset.keywords > .element > .cross > div {
 	width: 16px;
 	height: 4px;
 	background-color: var(--mn-bg-clr-bright);
@@ -171,24 +181,81 @@ article > .element > .cross > div {
 	border-radius: 5px;
 }
 
-article > .element > .cross > .top {
+article > .element > .cross > .top, fieldset.keywords > .element > .cross > .top {
 	transform: rotate(45deg);
 	top: 8px
 }
 
-article > .element > .cross > .bot {
+article > .element > .cross > .bot, fieldset.keywords > .element > .cross > .bot {
 	transform: rotate(-45deg);
 	top: 4px;
 }
 
-article > .element > .cross:hover  {
+article > .element > .cross:hover, fieldset.keywords > .element > .cross:hover  {
 	opacity: 1;
+}
+
+fieldset {
+	padding: 10px 15px;
+	border-radius: 5px;
+	background-color: var(--mn-bg-clr-bright);
+	border: none;
+}
+
+fieldset > legend {
+	padding: 0px 5px;
+}
+
+fieldset.keywords {
+	display: flex;
+	flex-direction: column;
+	gap: 10px
+}
+
+fieldset.keywords > .element {
+	position: relative;
+}
+
+.plus {
+	width: 20px;
+	height: 20px;
+	background-color: var(--mn-clr-inactive);
+	opacity: 0.25;
+	transition: opacity 0.2s ease;
+	border-radius: 50%;
+	position: relative;
+}
+
+.plus:hover {
+	opacity: 1;
+}
+
+.plus > div {
+	background-color: var(--mn-bg-clr-bright);
+	width: 16px;
+	height: 4px;
+	border-radius: 5px;
+	position: absolute;
+}
+
+.plus > .top {
+	transform: rotate(90deg);
+	top: 8px;
+	left: 2px
+}
+
+.plus > .bot {
+	top: 8px;
+	left: 2px
+}
+
+a {
+	text-decoration: none;
 }
 
 p, textarea.p {
 	font-size: 16px;
 	font-weight: 400;
-	word-wrap: break-word;
 }
 
 h1, textarea.h1 {
@@ -221,8 +288,9 @@ h6, textarea.h6 {
 	font-weight: 900;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p, h1, h2, h3, h4, h5, h6, .p, .h1, h2, h3, h4, h5, h6 {
 	word-wrap: break-word;
+	line-height: 1.5;
 }
 
 .toolbar {
@@ -248,7 +316,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .button.new {
-	padding: 20px 40px;
+	padding: 10px 20px;
 	text-align: center;
 	user-select: none;
 	cursor: pointer;
@@ -262,7 +330,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .button.new:hover {
 	border: 2px dotted var(--mn-clr-active);
-	background-color: rgb(70, 70, 70);
+	background-color: var(--mn-bg-clr-bright);
 	color: var(--mn-clr-active);
 }
 
@@ -286,4 +354,22 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .button.cancel:hover {
 	color: rgb(255, 15, 15);
+}
+
+.create-article {
+	align-self: center;
+	padding: 5px 10px;
+	border-radius: 5px;
+	user-select: none;
+	cursor: pointer;
+	color: var(--mn-clr-inactive);
+	transition: color 0.2s ease;
+}
+
+.create-article:hover {
+	color: var(--mn-clr-active);
+}
+
+legend {
+	user-select: none;
 }

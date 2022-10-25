@@ -1,22 +1,29 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import ArticleElementEditable from "../../components/ArticleElementEditable"
-import Button from "../../components/Button"
-import CustomTextarea from "../../components/CustomTextarea"
-import Layout from "../../components/Layout"
-import SelectTag from "../../components/SelectTag"
+import ArticleContentElementEditable from "../../../components/ArticleElementEditable"
+import Button from "../../../components/Button"
+import CustomTextarea from "../../../components/CustomTextarea"
+import Layout from "../../../components/Layout"
+import SelectTag from "../../../components/SelectTag"
 import TextareaAutosize from 'react-textarea-autosize'
-import KeywordElementEditable from "../../components/KeywordElementEditable"
+import KeywordElementEditable from "../../../components/KeywordElementEditable"
+import IArticle from "../../../interfaces/IArticle"
 
-function Create () {
+interface EditProps {
+	article: IArticle
+}
+
+function Edit (props: EditProps) {
+	const { article } = props
+	const { id } = article
 	const [textValue, useTextValue] = useState('')
 	const [keywordValue, useKeywordValue] = useState('')
 	const [tagValue, useTagValue] = useState('p' as tag)
 	const [visible, useVisible] = useState(false)
 	const [keywordVisible, useKeywordVisible] = useState(false)
-	const [content, useContent] = useState([] as content)
-	const [keywords, useKeywords] = useState([] as string[])
-	const [title, useTitle] = useState('')
-	const [description, useDescription] = useState('')
+	const [content, useContent] = useState(article.content)
+	const [keywords, useKeywords] = useState(article.keywords)
+	const [title, useTitle] = useState(article.title)
+	const [description, useDescription] = useState(article.description)
 	const [fetching, useFetching] = useState(false)
 
 	const handleCreateClick = () => {
@@ -58,17 +65,18 @@ function Create () {
 	const handleKeywordChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		useKeywordValue(e.target.value)
 	}
-	
+
 	useEffect(() => {
 		if (fetching) {
 			const response = fetch(
-				`${ process.env.NEXT_PUBLIC_API_DOMAIN }/article/create`,
+				`${ process.env.NEXT_PUBLIC_API_DOMAIN }/article/edit`,
 				{
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json;charset=utf-8'
 					},
 					body: JSON.stringify({
+						id,
 						title,
 						description,
 						keywords,
@@ -78,12 +86,8 @@ function Create () {
 			)
 			response.then(response => {
 				response.json().then(data => {
-					useFetching(false)
 					console.log(data)
-				},
-				(err) => {
 					useFetching(false)
-					console.log(err)
 				})
 			})
 		}
@@ -95,19 +99,21 @@ function Create () {
 			<fieldset>
 				<legend>Title</legend>
 				<TextareaAutosize
-				className="p"
-				onChange={ (e) => {
-					useTitle(e.target.value)
-				} }
+					defaultValue={ article.title }
+					className="p"
+					onChange={ (e) => {
+						useTitle(e.target.value)
+					} }
 				/>
 			</fieldset>
 			<fieldset>
 				<legend>Description</legend>
 				<TextareaAutosize
-				className="p"
-				onChange={ (e) => {
-					useDescription(e.target.value)
-				} }
+					defaultValue={ article.description }
+					className="p"
+					onChange={ (e) => {
+						useDescription(e.target.value)
+					} }
 				/>
 			</fieldset>
 			<fieldset className="keywords">
@@ -154,7 +160,7 @@ function Create () {
 			<>
 				{ content.map((element) => {
 					return (
-						<ArticleElementEditable
+						<ArticleContentElementEditable
 							key={ content.indexOf(element) }
 							tag={ element.tag }
 							useContent={ useContent }
@@ -162,7 +168,7 @@ function Create () {
 							textValue={ element.text}
 							content={ content }
 							index={ content.indexOf(element) }
-						>{ element.text }</ArticleElementEditable>
+						>{ element.text }</ArticleContentElementEditable>
 					)
 				})}
 			</>
@@ -197,10 +203,27 @@ function Create () {
 				className="create-article"
 				onClick={ () => {
 					useFetching(true)
+					fetching ? console.log('i can\'t') : console.log('i can')
 				} }
-			>Create article</div>
+			>Update article</div>
 		</Layout>
 	)
 }
 
-export default Create
+export default Edit
+
+export async function getServerSideProps(context) {
+	const response = await fetch(`${ process.env.API_DOMAIN }/article/?id=${ context.query.id }`)
+	if (response.status >= 400) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			  },
+		}
+	}
+	const article = await response.json()
+	return {
+		props: { article },
+	}
+}
